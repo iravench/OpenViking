@@ -63,7 +63,6 @@ PROVIDERS: tuple[ProviderSpec, ...] = (
         is_gateway=True,
         strip_model_prefix=True,
     ),
-
     ProviderSpec(
         name="openrouter",
         keywords=("openrouter",),
@@ -75,7 +74,6 @@ PROVIDERS: tuple[ProviderSpec, ...] = (
         detect_by_base_keyword="openrouter",
         default_api_base="https://openrouter.ai/api/v1",
     ),
-
     ProviderSpec(
         name="volcengine",
         keywords=("doubao", "volcengine", "ep-"),
@@ -85,7 +83,6 @@ PROVIDERS: tuple[ProviderSpec, ...] = (
         skip_prefixes=("volcengine/",),
         default_api_base="https://ark.cn-beijing.volces.com/api/v3",
     ),
-
     ProviderSpec(
         name="openai",
         keywords=("openai", "gpt"),
@@ -93,7 +90,6 @@ PROVIDERS: tuple[ProviderSpec, ...] = (
         display_name="OpenAI",
         litellm_prefix="",
     ),
-
     ProviderSpec(
         name="anthropic",
         keywords=("anthropic", "claude"),
@@ -101,7 +97,6 @@ PROVIDERS: tuple[ProviderSpec, ...] = (
         display_name="Anthropic",
         litellm_prefix="",
     ),
-
     ProviderSpec(
         name="deepseek",
         keywords=("deepseek",),
@@ -110,7 +105,6 @@ PROVIDERS: tuple[ProviderSpec, ...] = (
         litellm_prefix="deepseek",
         skip_prefixes=("deepseek/",),
     ),
-
     ProviderSpec(
         name="gemini",
         keywords=("gemini",),
@@ -119,7 +113,6 @@ PROVIDERS: tuple[ProviderSpec, ...] = (
         litellm_prefix="gemini",
         skip_prefixes=("gemini/",),
     ),
-
     ProviderSpec(
         name="moonshot",
         keywords=("moonshot", "kimi"),
@@ -127,15 +120,10 @@ PROVIDERS: tuple[ProviderSpec, ...] = (
         display_name="Moonshot",
         litellm_prefix="moonshot",
         skip_prefixes=("moonshot/",),
-        env_extras=(
-            ("MOONSHOT_API_BASE", "{api_base}"),
-        ),
+        env_extras=(("MOONSHOT_API_BASE", "{api_base}"),),
         default_api_base="https://api.moonshot.ai/v1",
-        model_overrides=(
-            ("kimi-k2.5", {"temperature": 1.0}),
-        ),
+        model_overrides=(("kimi-k2.5", {"temperature": 1.0}),),
     ),
-
     ProviderSpec(
         name="zhipu",
         keywords=("zhipu", "glm", "zai"),
@@ -143,11 +131,8 @@ PROVIDERS: tuple[ProviderSpec, ...] = (
         display_name="Zhipu AI",
         litellm_prefix="zai",
         skip_prefixes=("zhipu/", "zai/"),
-        env_extras=(
-            ("ZHIPUAI_API_KEY", "{api_key}"),
-        ),
+        env_extras=(("ZHIPUAI_API_KEY", "{api_key}"),),
     ),
-
     ProviderSpec(
         name="dashscope",
         keywords=("qwen", "dashscope"),
@@ -156,7 +141,6 @@ PROVIDERS: tuple[ProviderSpec, ...] = (
         litellm_prefix="dashscope",
         skip_prefixes=("dashscope/",),
     ),
-
     ProviderSpec(
         name="minimax",
         keywords=("minimax",),
@@ -166,7 +150,6 @@ PROVIDERS: tuple[ProviderSpec, ...] = (
         skip_prefixes=("minimax/",),
         default_api_base="https://api.minimax.io/v1",
     ),
-
     ProviderSpec(
         name="vllm",
         keywords=("vllm",),
@@ -174,6 +157,15 @@ PROVIDERS: tuple[ProviderSpec, ...] = (
         display_name="vLLM/Local",
         litellm_prefix="hosted_vllm",
         is_local=True,
+    ),
+    ProviderSpec(
+        name="ollama",
+        keywords=("ollama",),
+        env_key="OLLAMA_API_KEY",
+        display_name="Ollama",
+        litellm_prefix="ollama",
+        is_local=True,
+        default_api_base="http://localhost:11434",
     ),
 )
 

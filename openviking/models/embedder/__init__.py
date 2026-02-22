@@ -11,6 +11,7 @@ Provides three embedder abstractions:
 Supported providers:
 - OpenAI: Dense only
 - Volcengine: Dense, Sparse, Hybrid
+- Ollama: Dense (local models)
 """
 
 from openviking.models.embedder.base import (
@@ -22,6 +23,7 @@ from openviking.models.embedder.base import (
     SparseEmbedderBase,
 )
 from openviking.models.embedder.openai_embedders import OpenAIDenseEmbedder
+from openviking.models.embedder.ollama_embedders import OllamaDenseEmbedder
 from openviking.models.embedder.vikingdb_embedders import (
     VikingDBDenseEmbedder,
     VikingDBHybridEmbedder,
@@ -43,6 +45,8 @@ __all__ = [
     "CompositeHybridEmbedder",
     # OpenAI implementations
     "OpenAIDenseEmbedder",
+    # Ollama implementations
+    "OllamaDenseEmbedder",
     # Volcengine implementations
     "VolcengineDenseEmbedder",
     "VolcengineSparseEmbedder",

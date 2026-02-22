@@ -15,7 +15,8 @@ class EmbeddingModelConfig(BaseModel):
     batch_size: int = Field(default=32, description="Batch size for embedding generation")
     input: str = Field(default="multimodal", description="Input type: 'text' or 'multimodal'")
     provider: Optional[str] = Field(
-        default="volcengine", description="Provider type: 'openai', 'volcengine', 'vikingdb'"
+        default="volcengine",
+        description="Provider type: 'openai', 'volcengine', 'vikingdb', 'ollama'",
     )
     backend: Optional[str] = Field(
         default="volcengine",
@@ -52,9 +53,9 @@ class EmbeddingModelConfig(BaseModel):
         if not self.provider:
             raise ValueError("Embedding provider is required")
 
-        if self.provider not in ["openai", "volcengine", "vikingdb"]:
+        if self.provider not in ["openai", "volcengine", "vikingdb", "ollama"]:
             raise ValueError(
-                f"Invalid embedding provider: '{self.provider}'. Must be one of: 'openai', 'volcengine', 'vikingdb'"
+                f"Invalid embedding provider: '{self.provider}'. Must be one of: 'openai', 'volcengine', 'vikingdb', 'ollama'"
             )
 
         # Provider-specific validation
@@ -79,6 +80,9 @@ class EmbeddingModelConfig(BaseModel):
                 raise ValueError(
                     f"VikingDB provider requires the following fields: {', '.join(missing)}"
                 )
+
+        elif self.provider == "ollama":
+            pass
 
         return self
 
@@ -125,6 +129,7 @@ class EmbeddingConfig(BaseModel):
             ValueError: If provider/type combination is not supported
         """
         from openviking.models.embedder import (
+            OllamaDenseEmbedder,
             OpenAIDenseEmbedder,
             VikingDBDenseEmbedder,
             VikingDBHybridEmbedder,
@@ -138,6 +143,15 @@ class EmbeddingConfig(BaseModel):
         factory_registry = {
             ("openai", "dense"): (
                 OpenAIDenseEmbedder,
+                lambda cfg: {
+                    "model_name": cfg.model,
+                    "api_key": cfg.api_key,
+                    "api_base": cfg.api_base,
+                    "dimension": cfg.dimension,
+                },
+            ),
+            ("ollama", "dense"): (
+                OllamaDenseEmbedder,
                 lambda cfg: {
                     "model_name": cfg.model,
                     "api_key": cfg.api_key,
